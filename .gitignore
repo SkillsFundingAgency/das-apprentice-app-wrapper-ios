@@ -304,3 +304,7 @@ src/**/**/appsettings.Development.json
 
 
 setup/containermongo/data/
+/src/MyApprenticeship/Platforms/Android
+/src/MyApprenticeship/Platforms/MacCatalyst
+/src/MyApprenticeship/Platforms/Tizen
+/src/MyApprenticeship/Platforms/Windows
