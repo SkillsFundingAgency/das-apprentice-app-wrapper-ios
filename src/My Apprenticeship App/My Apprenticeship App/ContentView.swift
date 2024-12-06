@@ -23,9 +23,9 @@ struct WebView: UIViewRepresentable {
     func makeUIView(context: Context) -> WKWebView {
         return webView
     }
-    func updateUIView(_ uiView: WKWebView, context: Context) {
-
-        webView.load(URLRequest(url: URL(string: "https://demo-apprentice-app.apprenticeships.education.gov.uk")!))
+    func updateUIView(_ uiView: WKWebView, context: Context)
+    {
+        webView.load(URLRequest(url: URL(string: "https://pp-apprentice-app.apprenticeships.education.gov.uk")!))
         
         webView.allowsBackForwardNavigationGestures = false;
     }
