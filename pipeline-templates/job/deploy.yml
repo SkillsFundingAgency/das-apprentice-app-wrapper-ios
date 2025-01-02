@@ -1,7 +1,21 @@
 jobs:
-- job: EchoMessages
+- deployment: DeployiOSApp
   pool:
-    name: DAS - Continuous Deployment Agents
-  steps:
-    - script: echo "This is a simplified pipeline."
-      displayName: 'Echo Message'
+    vmImage: 'macOS-latest'
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+         - template: azure-pipelines-templates/deploy/step/ios-app-deploy.yml@das-platform-building-blocks
+           parameters:
+            AppleDeveloperUsername: $(AppleDeveloperUsername)
+            AppleAppSpecificPassword: $(AppleAppSpecificPassword)
+            AppleTeamID: $(AppleTeamID)
+            AppleAppIdentifier: $(AppleAppIdentifier)
+            ProvisioningProfileSecureFile: $(ProvisioningProfileSecureFile)
+            CertificateSecureFile: $(CertificateSecureFile)
+            DeploymentPackagePath: $(Pipeline.Workspace)/${{ parameters.SolutionBaseName }}/${{ parameters.SolutionBaseName }}.ipa
+            AppVersion: '1.0.0'
+            BuildConfiguration: 'Release'
+            XcodeScheme: 'YourAppScheme'
+            MAUIProjectPath: 'YourMAUIProject.sln'
