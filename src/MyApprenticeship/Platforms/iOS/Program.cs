@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace MyApprenticeship;
+namespace myapprenticeship;
 
 public class Program
 {
@@ -13,4 +13,3 @@ public class Program
 		UIApplication.Main(args, null, typeof(AppDelegate));
 	}
 }
-

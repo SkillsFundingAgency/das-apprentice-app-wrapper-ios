@@ -1,4 +1,4 @@
-﻿namespace MyApprenticeship;
+﻿namespace myapprenticeship;
 
 public partial class AppShell : Shell
 {
@@ -7,4 +7,3 @@ public partial class AppShell : Shell
 		InitializeComponent();
 	}
 }
-
