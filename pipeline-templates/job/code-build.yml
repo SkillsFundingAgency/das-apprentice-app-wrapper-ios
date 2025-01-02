@@ -13,12 +13,12 @@ jobs:
   steps:
   - template: azure-pipelines-templates/build/step/gitversion.yml@das-platform-building-blocks
 
-  - task: DotNetCoreCLI@2
-    displayName: Install Workloads
-    inputs:
-      command: custom
-      custom: workload
-      arguments: install maui ios maui-tizen --skip-manifest-update
+  # - task: DotNetCoreCLI@2
+  #   displayName: Install Workloads
+  #   inputs:
+  #     command: custom
+  #     custom: workload
+  #     arguments: install maui ios maui-tizen --skip-manifest-update
 
   - template: azure-pipelines-templates/build/step/ios-app-build.yml@das-platform-building-blocks
     parameters:
