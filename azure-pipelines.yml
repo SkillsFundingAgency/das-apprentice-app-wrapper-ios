@@ -52,4 +52,5 @@ stages:
       - group: AT DevTest Shared Resources
     jobs:
       - template: pipeline-templates/job/deploy.yml
+         parameters:
           Environment: TestFlight
