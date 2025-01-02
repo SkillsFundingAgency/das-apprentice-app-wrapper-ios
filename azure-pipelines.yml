@@ -1,0 +1,44 @@
+trigger:
+  batch: true
+  branches:
+    include:
+      - "main"
+
+variables:
+  - name: SolutionBaseName
+    value: MyApprenticeship
+  - name: BuildConfiguration
+    value: release
+  - name: BuildPlatform
+    value: any cpu
+  - group: RELEASE Management Resources
+  - group: RELEASE das-apprentice-app
+  - name: Deploy
+    value: $[or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(variables['Build.Reason'], 'Manual'), eq(variables['Build.Reason'], 'PullRequest'))]
+
+resources:
+  repositories:
+    - repository: self
+    - repository: das-platform-building-blocks
+      type: github
+      name: SkillsFundingAgency/das-platform-building-blocks
+      ref: refs/heads/DASD-12435
+      endpoint: SkillsFundingAgency
+    - repository: das-platform-automation
+      type: github
+      name: SkillsFundingAgency/das-platform-automation
+      ref: refs/tags/5.1.14
+      endpoint: SkillsFundingAgency
+  pipelines:
+    - pipeline: das-employer-config
+      project: Digital Apprenticeship Service
+      source: das-employer-config
+      branch: master
+
+stages:
+  - stage: Build
+    jobs:
+      - template: pipeline-templates/job/code-build.yml
+        parameters:
+          SolutionBaseName: $(SolutionBaseName)
+          BuildConfiguration: $(BuildConfiguration)
