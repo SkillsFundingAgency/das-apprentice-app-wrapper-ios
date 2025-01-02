@@ -1,16 +1,18 @@
+
 parameters:
   Environment:
-  
+
 jobs:
-- deployment: DeployiOSApp
+- deployment: DeployWebApp
   pool:
     vmImage: 'macOS-latest'
+  environment: ${{ parameters.Environment }}
   strategy:
     runOnce:
       deploy:
         steps:
-         - template: azure-pipelines-templates/deploy/step/ios-app-deploy.yml@das-platform-building-blocks
-           parameters:
+        - template: azure-pipelines-templates/deploy/step/ios-app-deploy.yml@das-platform-building-blocks
+          parameters:
             AppleDeveloperUsername: $(AppleDeveloperUsername)
             AppleAppSpecificPassword: $(AppleAppSpecificPassword)
             AppleTeamID: $(AppleTeamID)
