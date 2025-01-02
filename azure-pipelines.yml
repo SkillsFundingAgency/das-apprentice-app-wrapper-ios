@@ -5,53 +5,48 @@ trigger:
       - "main"
 
 variables:
-- name: SolutionBaseName
-  value: MyApprenticeship
-- name: BuildConfiguration
-  value: release
-- name: BuildPlatform
-  value: any cpu
-- group: RELEASE Management Resources
-- group: RELEASE das-apprentice-app
-- name: Deploy
-  value: $[or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(variables['Build.Reason'], 'Manual'), eq(variables['Build.Reason'], 'PullRequest'))]
+  - name: SolutionBaseName
+    value: MyApprenticeship
+  - name: BuildConfiguration
+    value: release
+  - name: BuildPlatform
+    value: any cpu
+  - group: 
+    - RELEASE Management Resources
+    - RELEASE das-apprentice-app
+  - name: Deploy
+    value: $[or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(variables['Build.Reason'], 'Manual'), eq(variables['Build.Reason'], 'PullRequest'))]
 
 resources:
   repositories:
-  - repository: self
-  - repository: das-platform-building-blocks
-    type: github
-    name: SkillsFundingAgency/das-platform-building-blocks
-    ref: refs/heads/DASD-12435
-    endpoint: SkillsFundingAgency
-  - repository: das-platform-automation
-    type: github
-    name: SkillsFundingAgency/das-platform-automation
-    ref: refs/tags/5.1.14
-    endpoint: SkillsFundingAgency
+    - repository: self
+    - repository: das-platform-building-blocks
+      type: github
+      name: SkillsFundingAgency/das-platform-building-blocks
+      ref: refs/heads/DASD-12435
+      endpoint: SkillsFundingAgency
+    - repository: das-platform-automation
+      type: github
+      name: SkillsFundingAgency/das-platform-automation
+      ref: refs/tags/5.1.14
+      endpoint: SkillsFundingAgency
   pipelines:
-  - pipeline: das-employer-config
-    project: Digital Apprenticeship Service
-    source: das-employer-config
-    branch: master
+    - pipeline: das-employer-config
+      project: Digital Apprenticeship Service
+      source: das-employer-config
+      branch: master
 
 stages:
-- stage: Build
-  jobs:
-  - template: pipeline-templates/job/code-build.yml
-    parameters:
-      SolutionBaseName: $(SolutionBaseName)
-      BuildConfiguration: $(BuildConfiguration)
+  - stage: Build
+    jobs:
+      - template: pipeline-templates/job/code-build.yml
+        parameters:
+          SolutionBaseName: $(SolutionBaseName)
+          BuildConfiguration: $(BuildConfiguration)
 
-# - stage: Deploy_TestFlight
-#   dependsOn: Build
-#   displayName: Deploy to Testflight
-#   condition: and(succeeded(), eq(variables.Deploy, 'true'))
-#   jobs:
-#    - template: pipeline-templates/job/deploy.yml
-#       parameters:
-#         Environment: AT
-#         SolutionBaseName: $(SolutionBaseName)
-#         ServiceConnection: SFA-DAS-DevTest-ARM
-#         OverrideBlockOnPossibleDataLoss: ${{ parameters.OverrideBlockOnPossibleDataLoss  }}
-#         AppRoleAssignmentsServiceConnection: das-app-role-assignments-CDS     
+  - stage: Deploy_TestFlight
+    dependsOn: Build
+    displayName: Deploy to Testflight
+    condition: and(succeeded(), eq(variables.Deploy, 'true'))
+    jobs:
+      - template: pipeline-templates/job/deploy.yml
