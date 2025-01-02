@@ -43,9 +43,12 @@ stages:
           SolutionBaseName: $(SolutionBaseName)
           BuildConfiguration: $(BuildConfiguration)
 
-  - stage: Deploy_TestFlight
+  - stage: Deploy_Testflight
     dependsOn: Build
-    displayName: Deploy to Testflight
+    displayName: Deploy to TestFlight
     condition: and(succeeded(), eq(variables.Deploy, 'true'))
+    variables:
+      - group: DevTest Management Resources
+      - group: AT DevTest Shared Resources
     jobs:
       - template: pipeline-templates/job/deploy.yml
