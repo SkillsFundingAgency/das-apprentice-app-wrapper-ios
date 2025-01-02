@@ -22,13 +22,13 @@ jobs:
       custom: workload
       arguments: install maui ios maui-tizen --skip-manifest-update
 
-  # Step 3: Restore Workloads for the Project
-  - task: DotNetCoreCLI@2
-    displayName: Restore Workloads for the Project
-    inputs:
-      command: custom
-      custom: workload
-      arguments: restore
+  # # Step 3: Restore Workloads for the Project
+  # - task: DotNetCoreCLI@2
+  #   displayName: Restore Workloads for the Project
+  #   inputs:
+  #     command: custom
+  #     custom: workload
+  #     arguments: restore
 
   # Step 4: Application Build Step
   - template: azure-pipelines-templates/build/step/app-build.yml@das-platform-building-blocks
