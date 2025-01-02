@@ -43,15 +43,15 @@ stages:
       SolutionBaseName: $(SolutionBaseName)
       BuildConfiguration: $(BuildConfiguration)
 
-- stage: Deploy_TestFlight
-  dependsOn: Build
-  displayName: Deploy to Testflight
-  condition: and(succeeded(), eq(variables.Deploy, 'true'))
-  jobs:
-   - template: pipeline-templates/job/deploy.yml
-      parameters:
-        Environment: AT
-        SolutionBaseName: $(SolutionBaseName)
-        ServiceConnection: SFA-DAS-DevTest-ARM
-        OverrideBlockOnPossibleDataLoss: ${{ parameters.OverrideBlockOnPossibleDataLoss  }}
-        AppRoleAssignmentsServiceConnection: das-app-role-assignments-CDS     
+# - stage: Deploy_TestFlight
+#   dependsOn: Build
+#   displayName: Deploy to Testflight
+#   condition: and(succeeded(), eq(variables.Deploy, 'true'))
+#   jobs:
+#    - template: pipeline-templates/job/deploy.yml
+#       parameters:
+#         Environment: AT
+#         SolutionBaseName: $(SolutionBaseName)
+#         ServiceConnection: SFA-DAS-DevTest-ARM
+#         OverrideBlockOnPossibleDataLoss: ${{ parameters.OverrideBlockOnPossibleDataLoss  }}
+#         AppRoleAssignmentsServiceConnection: das-app-role-assignments-CDS     
