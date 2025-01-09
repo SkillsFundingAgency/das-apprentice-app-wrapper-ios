@@ -34,6 +34,20 @@ jobs:
       TargetFolder: $(build.artifactstagingdirectory)/publish
       OverWrite: true
 
+  - task: InstallAppleCertificate@2
+    displayName: Install Apple Certificate (.p12)
+    inputs:
+      certSecureFile: 'certificate.p12'
+      certPwd: '$(CertPassword)'
+      keychain: 'temp'
+      removeCertsAfterBuild: true
+
+  - task: InstallAppleProvisioningProfile@1
+    displayName: Install Provisioning Profile
+    inputs:
+      provisioningProfileLocation: 'secureFiles'
+      provProfileSecureFile: 'provisioning_profile.mobileprovision'
+
   - task: PublishPipelineArtifact@1
     displayName: Publish Build Artifact
     inputs:
