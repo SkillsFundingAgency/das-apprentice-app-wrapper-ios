@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0-ios</TargetFrameworks>
+    <OutputType>Exe</OutputType>
+    <SingleProject>true</SingleProject>
+    <UseMaui>true</UseMaui>
+    <RootNamespace>myapprenticeship</RootNamespace>
+    <ApplicationTitle>myapprenticeship</ApplicationTitle>
+    <ApplicationId>com.companyname.myapprenticeship</ApplicationId>
+    <EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+
+    <!-- Required for C# Hot Reload -->
+    <UseInterpreter Condition="'$(Configuration)' == 'Debug'">True</UseInterpreter>
+
+    <!-- iOS and Windows platform versions -->
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
+
+  </PropertyGroup>
+
+  <!-- iOS Publish Settings -->
+  <PropertyGroup Condition="$(TargetFramework.Contains('-ios')) and '$(Configuration)' == 'Release'">
+    <RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- MAUI Resources -->
+    <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+    <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+    <MauiImage Include="Resources\Images\*" />
+    <MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
+    <MauiFont Include="Resources\Fonts\*" />
+    <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <!-- Package References -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+    <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
+  </ItemGroup>
+
+</Project>
