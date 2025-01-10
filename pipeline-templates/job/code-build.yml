@@ -37,7 +37,7 @@ jobs:
   - task: InstallAppleCertificate@2
     displayName: Install Apple Certificate (.p12)
     inputs:
-      certSecureFile: 'certificate.p12'
+      certSecureFile: 'src/CGCertificates.p12'
       certPwd: '$(CertPassword)'
       keychain: 'temp'
       removeCertsAfterBuild: true
@@ -46,7 +46,7 @@ jobs:
     displayName: Install Provisioning Profile
     inputs:
       provisioningProfileLocation: 'secureFiles'
-      provProfileSecureFile: 'provisioning_profile.mobileprovision'
+      provProfileSecureFile: 'src/My_Apprenticeship_Pilot.mobileprovision'
 
   - task: PublishPipelineArtifact@1
     displayName: Publish Build Artifact
