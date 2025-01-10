@@ -51,7 +51,7 @@ jobs:
         targetType: 'inline'
         script: |
           echo "Listing all files in the repository:"
-          ls -R
+          ls -R ls -R $(Build.SourcesDirectory)/src/MyApprenticeship
      
     - task: Bash@3
       displayName: List Keychain Certificates
@@ -71,7 +71,7 @@ jobs:
           -f:net8.0-ios
           -c:${{ parameters.BuildConfiguration }}
           -p:BuildIpa=True
-          -p:CodesignProvision=$(Build.SourcesDirectory)/My_Apprenticeship_Pilot.mobileprovision
+          -p:CodesignProvision=$(Build.SourcesDirectory)/src/MyApprenticeship/My_Apprenticeship_Pilot.mobileprovision
           -p:CodesignKey="Apple Development: Catherine Groom (V32T36UQ9X)"
 
     - task: CopyFiles@2
