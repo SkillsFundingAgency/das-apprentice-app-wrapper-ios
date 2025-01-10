@@ -45,6 +45,14 @@ jobs:
           cd src
           dotnet restore $(SolutionBaseName).sln
 
+    - task: Bash@3
+      displayName: List Directory Contents
+      inputs:
+        targetType: 'inline'
+        script: |
+          echo "Listing all files in the repository:"
+          ls -R /workspaces/das-apprentice-app-wrapper-ios/src
+     
     - task: DotNetCoreCLI@2
       displayName: Build iOS App
       inputs:
