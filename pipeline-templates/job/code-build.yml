@@ -2,20 +2,16 @@ parameters:
   SolutionBaseName:
   BuildConfiguration:
 
-stages:
-- stage: Build
-  jobs:
-  - job: BuildMyApprenticeship
-    displayName: Build MyApprenticeship App for iOS
-    pool:
-      vmImage: 'macOS-latest'
-      demands:
+jobs:
+- job: BuildMyApprenticeship
+  displayName: Build MyApprenticeship App for iOS
+  pool:
+    vmImage: 'macOS-latest'
+    demands:
       - MSBuild
-    variables:
-     - group: BUILD Management Resources 
-    steps:
-
-    # Setup Secret Pipeline Variable or Library Secrets Variable for iOS Certificate Password
+  variables:
+  - group: BUILD Management Resources 
+  steps:
     - task: InstallAppleCertificate@2
       inputs:
         certSecureFile: '$(AppleCertificate)'
