@@ -32,7 +32,7 @@
   <PropertyGroup Condition="$(TargetFramework.Contains('-ios')) and '$(Configuration)' == 'Release'">
     <RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
     <CodesignKey>iPhone Distribution: Catherine Groom (V32T36UQ9X)</CodesignKey>
-    <CodesignProvision>MyMauiApp</CodesignProvision>
+    <CodesignProvision>My_Apprenticeship_Pilot</CodesignProvision>
     <ArchiveOnBuild>true</ArchiveOnBuild>
   </PropertyGroup>
 
