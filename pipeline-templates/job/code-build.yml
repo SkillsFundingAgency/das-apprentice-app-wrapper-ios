@@ -53,6 +53,14 @@ jobs:
           echo "Listing all files in the repository:"
           ls -R
      
+    - task: Bash@3
+      displayName: List Keychain Certificates
+      inputs:
+        targetType: 'inline'
+        script: |
+         security list-keychains
+         security find-identity -v -p codesigning
+
     - task: DotNetCoreCLI@2
       displayName: Build iOS App
       inputs:
