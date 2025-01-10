@@ -1,67 +1,78 @@
 parameters:
-  SolutionBaseName:
-  BuildConfiguration:
+  SolutionBaseName: 'myapprenticeship' # Your solution/project name
+  BuildConfiguration: 'Release' # Build configuration
 
 jobs:
-- job: CodeBuild
+- job: BuildiOSApp
+  displayName: Build iOS MAUI App
   pool:
     vmImage: 'macOS-latest'
     workspace:
       clean: all
   variables:
-  - group: BUILD Management Resources
+  - group: BUILD Management Resources # Variable group containing sensitive values (e.g., CertPassword)
+  
   steps:
+  # Checkout the code
+  - task: Checkout@1
+    displayName: Checkout Code
+
+  # Install the Apple Certificate
   - task: InstallAppleCertificate@2
     displayName: Install Apple Certificate
     inputs:
-      certSecureFile: 'CGCertificates.p12'
-      certPwd: '$(CertPassword)'
+      certSecureFile: 'CGCertificates.p12' # Name of your certificate in Secure Files
+      certPwd: '$(CertPassword)' # Cert password from variable group
       keychain: 'temp'
       removeCertsAfterBuild: true
 
+  # Install the Provisioning Profile
   - task: InstallAppleProvisioningProfile@1
     displayName: Install Provisioning Profile
     inputs:
       provisioningProfileLocation: 'secureFiles'
-      provProfileSecureFile: 'My_Apprenticeship_Pilot.mobileprovision'
+      provProfileSecureFile: 'My_Apprenticeship_Pilot.mobileprovision' # Name of your provisioning profile in Secure Files
 
-  - task: Bash@3
-    displayName: Verify Installed Certificates
+  # Restore .NET dependencies
+  - task: DotNetCoreCLI@2
+    displayName: Restore Dependencies
     inputs:
-      targetType: 'inline'
-      script: |
-        echo "Installed Certificates:"
-        security find-identity -v -p codesigning
+      command: restore
+      projects: src/${{ parameters.SolutionBaseName }}/${{ parameters.SolutionBaseName }}.sln
 
-  - task: Bash@3
-    displayName: Verify Installed Provisioning Profiles
+  # Build the project
+  - task: DotNetCoreCLI@2
+    displayName: Build Solution
     inputs:
-      targetType: 'inline'
-      script: |
-        echo "Installed Provisioning Profiles:"
-        /usr/bin/profiles -C -v
+      command: build
+      projects: src/${{ parameters.SolutionBaseName }}/${{ parameters.SolutionBaseName }}.sln
+      arguments: '-c ${{ parameters.BuildConfiguration }}'
 
+  # Publish the app for iOS
   - task: Bash@3
     displayName: Publish iOS App
     inputs:
       targetType: 'inline'
       script: |
-        dotnet publish src/${{ parameters.SolutionBaseName }}/${{ parameters.SolutionBaseName }}.csproj \
-          -f net8.0-ios -c ${{ parameters.BuildConfiguration }} \
-          -p:SigningIdentity="Apple Distribution" \
-          -p:ProvisioningProfile="My_Apprenticeship_Pilot.mobileprovision"
+        cd src/${{ parameters.SolutionBaseName }}
+        dotnet publish ${{ parameters.SolutionBaseName }}.csproj \
+          -c ${{ parameters.BuildConfiguration }} \
+          -f net8.0-ios \
+          -p:ArchiveOnBuild=true \
+          -p:ProvisioningProfile="My_Apprenticeship_Pilot.mobileprovision" \
+          -p:SigningIdentity="Apple Distribution"
 
+  # Copy the IPA file to the artifact staging directory
   - task: CopyFiles@2
-    displayName: Copy artifacts
+    displayName: Copy IPA to Artifacts
     inputs:
-      Contents: |
-        azure/**
-        **/*.ipa
-      TargetFolder: $(build.artifactstagingdirectory)/publish
+      Contents: '**/*.ipa'
+      TargetFolder: '$(build.artifactstagingdirectory)/ios'
       OverWrite: true
 
-  - task: PublishBuildArtifacts@1
-    displayName: Publish Build Artifact
+  # Publish the artifact
+  - task: PublishPipelineArtifact@1
+    displayName: Publish iOS IPA Artifact
     inputs:
-      PathtoPublish: $(build.artifactstagingdirectory)/publish
-      ArtifactName: ${{ parameters.SolutionBaseName }}
+      targetPath: '$(build.artifactstagingdirectory)/ios'
+      artifactName: 'iOS_Build'
