@@ -10,69 +10,45 @@ jobs:
     workspace:
       clean: all
   variables:
-  - group: BUILD Management Resources # Variable group containing sensitive values (e.g., CertPassword)
+  - group: BUILD Management Resources
   steps:
   - template: azure-pipelines-templates/build/step/gitversion.yml@das-platform-building-blocks
   - template: azure-pipelines-templates/build/step/ios-app-build.yml@das-platform-building-blocks
     parameters:
       ContinueOnVulnerablePackageScanError: true  
   
-  # Install the Apple Certificate
   - task: InstallAppleCertificate@2
-    displayName: Install Apple Certificate
     inputs:
-      certSecureFile: 'CGCertificates.p12' # Name of your certificate in Secure Files
-      certPwd: '$(CertPassword)' # Cert password from variable group
+      certSecureFile: '$(AppleCertificate)'
+      certPwd: '$(iOSCertPassword)'
       keychain: 'temp'
-      removeCertsAfterBuild: true
 
-  # Install the Provisioning Profile
   - task: InstallAppleProvisioningProfile@1
-    displayName: Install Provisioning Profile
+    displayName: 'Install app store provisioning profile'
     inputs:
       provisioningProfileLocation: 'secureFiles'
-      provProfileSecureFile: 'My_Apprenticeship_Pilot.mobileprovision' # Name of your provisioning profile in Secure Files
+      provProfileSecureFile: '$(ProvisioningProfile)'
 
-  # Restore .NET dependencies
+
   - task: DotNetCoreCLI@2
-    displayName: Restore Dependencies
+    displayName: 'dotnet publish iOS'
     inputs:
-      command: restore
-      projects: src/${{ parameters.SolutionBaseName }}.sln
+      command: 'publish'
+      publishWebProjects: false
+      projects: '**/MyApprenticeship.sln'
+      arguments: '-f net8.0-ios -c Release -p:ArchiveOnBuild=true -p:EnableAssemblyILStripping=false -p:RuntimeIdentifier=ios-arm64'
+      zipAfterPublish: false
 
-  # Build the project
-  - task: DotNetCoreCLI@2
-    displayName: Build Solution
-    inputs:
-      command: build
-      projects: src/${{ parameters.SolutionBaseName }}.sln
-      arguments: '-c ${{ parameters.BuildConfiguration }}'
-
-  # Publish the app for iOS
-  - task: Bash@3
-    displayName: Publish iOS App
-    inputs:
-      targetType: 'inline'
-      script: |
-        cd src/${{ parameters.SolutionBaseName }}
-        dotnet publish ${{ parameters.SolutionBaseName }}.csproj \
-          -c ${{ parameters.BuildConfiguration }} \
-          -f net8.0-ios \
-          -p:ArchiveOnBuild=true \
-          -p:ProvisioningProfile="My_Apprenticeship_Pilot.mobileprovision" \
-          -p:SigningIdentity="Apple Distribution"
-
-  # Copy the IPA file to the artifact staging directory
   - task: CopyFiles@2
-    displayName: Copy IPA to Artifacts
+    displayName: 'Copy iOS artifact'
     inputs:
       Contents: '**/*.ipa'
-      TargetFolder: '$(build.artifactstagingdirectory)/ios'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)'
+      CleanTargetFolder: true
       OverWrite: true
+      flattenFolders: true
 
-  # Publish the artifact
-  - task: PublishPipelineArtifact@1
-    displayName: Publish iOS IPA Artifact
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: drop'
     inputs:
-      targetPath: '$(build.artifactstagingdirectory)/ios'
-      artifactName: 'iOS_Build'
+      PathtoPublish: '$(build.artifactstagingdirectory)'
