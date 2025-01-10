@@ -48,7 +48,8 @@ jobs:
   #       /p:ProvisioningProfile="My_Apprenticeship_Pilot.mobileprovision"
   #     modifyOutputPath: true
   #     zipAfterPublish: true
-
+  
+  # Publish the iOS app
   - task: Bash@3
     displayName: Publish iOS app
     inputs:
