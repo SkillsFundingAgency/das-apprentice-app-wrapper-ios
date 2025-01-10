@@ -57,6 +57,7 @@ jobs:
       displayName: Build iOS App
       inputs:
         command: 'publish'
+        publishWebProjects: false
         projects: 'src/$(SolutionBaseName).sln'
         arguments: >
           -f:net8.0-ios
