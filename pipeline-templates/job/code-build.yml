@@ -1,6 +1,6 @@
 parameters:
-  SolutionBaseName: 'myapprenticeship' # Your solution/project name
-  BuildConfiguration: 'Release' # Build configuration
+  SolutionBaseName:
+  BuildConfiguration:
 
 jobs:
 - job: BuildiOSApp
