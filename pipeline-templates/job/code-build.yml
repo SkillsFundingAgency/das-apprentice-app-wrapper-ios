@@ -10,35 +10,47 @@ jobs:
     workspace:
       clean: all
   variables:
-  - group: BUILD Management Resources
+  - group: BUILD Management Resources  # Ensure these variables are defined and correct
   steps:
-  - template: azure-pipelines-templates/build/step/gitversion.yml@das-platform-building-blocks
-  - template: azure-pipelines-templates/build/step/ios-app-build.yml@das-platform-building-blocks
-    parameters:
-      ContinueOnVulnerablePackageScanError: true  
   
+  # Ensure .NET SDK 8.x is used
+  - task: UseDotNet@2
+    displayName: 'Install .NET 8.0 SDK'
+    inputs:
+      packageType: 'sdk'
+      version: '8.x'
+      installationPath: $(Agent.ToolsDirectory)/dotnet
+
+  - task: CmdLine@2
+    displayName: 'Install Latest .NET MAUI Workload '
+    inputs:
+     script: 'dotnet workload install maui'    
+
+  # Install Apple Certificate
   - task: InstallAppleCertificate@2
     inputs:
-      certSecureFile: '$(AppleCertificate)'
-      certPwd: '$(iOSCertPassword)'
+      certSecureFile: '$(AppleCertificate)'  # Ensure this matches your Secure Files certificate name
+      certPwd: '$(iOSCertPassword)'  # Ensure this is defined in the variable group
       keychain: 'temp'
 
+  # Install Provisioning Profile from Secure Files
   - task: InstallAppleProvisioningProfile@1
     displayName: 'Install app store provisioning profile'
     inputs:
       provisioningProfileLocation: 'secureFiles'
-      provProfileSecureFile: '$(ProvisioningProfile)'
+      provProfileSecureFile: '$(ProvisioningProfile)'  # Ensure this matches your Secure Files provisioning profile name
 
-
+  # Publish the iOS app
   - task: DotNetCoreCLI@2
     displayName: 'dotnet publish iOS'
     inputs:
       command: 'publish'
       publishWebProjects: false
       projects: '**/MyApprenticeship.sln'
-      arguments: '-f net8.0-ios -c Release -p:ArchiveOnBuild=true -p:EnableAssemblyILStripping=false -p:RuntimeIdentifier=ios-arm64'
+      arguments: '-f net8.0-ios -c Release -p:ArchiveOnBuild=true -p:EnableAssemblyILStripping=false -p:RuntimeIdentifier=ios-arm64 -p:ProvisioningProfile="My_Apprenticeship_Pilot.mobileprovision" -p:SigningIdentity="Apple Distribution"'
       zipAfterPublish: false
 
+  # Copy the IPA file to artifact
   - task: CopyFiles@2
     displayName: 'Copy iOS artifact'
     inputs:
@@ -48,6 +60,7 @@ jobs:
       OverWrite: true
       flattenFolders: true
 
+  # Publish the artifact
   - task: PublishBuildArtifacts@1
     displayName: 'Publish Artifact: drop'
     inputs:
