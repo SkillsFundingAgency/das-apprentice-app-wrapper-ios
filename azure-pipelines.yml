@@ -17,3 +17,14 @@ steps:
   displayName: 'Install Maui Workload'
   inputs:
     script: 'dotnet workload install maui'
+
+- task: InstallAppleCertificate@2
+  inputs:
+    certSecureFile: 'CGCertificates.p12'
+    certPwd: '$(iOSCertPassword)'
+    keychain: 'temp'
+
+- task: InstallAppleProvisioningProfile@1
+  inputs:
+    provisioningProfileLocation: 'secureFiles'
+    provProfileSecureFile: '$(ProvisioningProfile)'
