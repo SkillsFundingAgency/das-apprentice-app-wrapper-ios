@@ -16,6 +16,7 @@ jobs:
     parameters:
       ContinueOnVulnerablePackageScanError: true
 
+  # Install the Apple Certificate
   - task: InstallAppleCertificate@2
     displayName: Install Apple Certificate
     inputs:
@@ -24,22 +25,31 @@ jobs:
       keychain: 'temp'
       removeCertsAfterBuild: true
 
+  # Install the Provisioning Profile
   - task: InstallAppleProvisioningProfile@1
     displayName: Install Provisioning Profile
     inputs:
       provisioningProfileLocation: 'secureFiles'
-      provProfileSecureFile: 'My_Apprenticeship_Pilot.mobileprovision'    
+      provProfileSecureFile: 'My_Apprenticeship_Pilot.mobileprovision'
 
+  # Publish the iOS app
   - task: DotNetCoreCLI@2
     displayName: Publish - dotnet publish ${{ parameters.SolutionBaseName }} for iOS
     inputs:
       command: publish
       publishWebProjects: false
       projects: src/${{ parameters.SolutionBaseName }}/${{ parameters.SolutionBaseName }}.csproj
-      arguments: -o $(build.artifactstagingdirectory)/publish -c ${{ parameters.BuildConfiguration }} -f net8.0-ios --no-build
+      arguments: >
+        -o $(build.artifactstagingdirectory)/publish
+        -c ${{ parameters.BuildConfiguration }}
+        -f net8.0-ios
+        --no-build
+        /p:SigningIdentity="Apple Distribution"
+        /p:ProvisioningProfile="My_Apprenticeship_Pilot.mobileprovision"
       modifyOutputPath: true
       zipAfterPublish: true
 
+  # Copy files to artifact staging directory
   - task: CopyFiles@2
     displayName: Copy Files to $(build.artifactstagingdirectory)/publish
     inputs:
@@ -48,6 +58,7 @@ jobs:
       TargetFolder: $(build.artifactstagingdirectory)/publish
       OverWrite: true
 
+  # Publish pipeline artifact
   - task: PublishPipelineArtifact@1
     displayName: Publish Build Artifact
     inputs:
