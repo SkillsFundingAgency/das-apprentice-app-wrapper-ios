@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFrameworks>net8.0-ios</TargetFrameworks>
-    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
     <OutputType>Exe</OutputType>
     <SingleProject>true</SingleProject>
     <UseMaui>true</UseMaui>
@@ -18,14 +17,7 @@
 
     <!-- iOS and Windows platform versions -->
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
-    <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 
-  </PropertyGroup>
-
-  <!-- MSIX Generation for Windows -->
-  <PropertyGroup Condition="$(TargetFramework.Contains('-windows')) and '$(Configuration)' == 'Release'">
-    <GenerateAppxPackageOnBuild>true</GenerateAppxPackageOnBuild>
-    <!-- <AppxPackageSigningEnabled>true</AppxPackageSigningEnabled> -->
   </PropertyGroup>
 
   <!-- iOS Publish Settings -->
@@ -46,39 +38,11 @@
     <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
 
-  <!-- Windows-Specific Package References -->
-  <ItemGroup Condition="$(TargetFramework.Contains('-windows'))">
-    <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.0.1" />
-    <PackageReference Include="PInvoke.User32" Version="0.7.104" />
-  </ItemGroup>
-
-  <!-- Remove platform-specific files that are not needed -->
-  <ItemGroup>
-    <None Remove="Platforms\Windows\trayicon.ico" />
-    <None Remove="Platforms\MacCatalyst\trayicon.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Platforms\Windows\trayicon.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Platforms\MacCatalyst\trayicon.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
   <!-- Package References -->
   <ItemGroup>
     <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
     <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
   </ItemGroup>
-
-  <!-- Visual Studio User Properties for Xamarin Hot Reload -->
-  <ProjectExtensions>
-    <VisualStudio>
-      <UserProperties XamarinHotReloadGenericExceptionInfoBarWeatherTwentyOneHideInfoBar="True" />
-    </VisualStudio>
-  </ProjectExtensions>
 
 </Project>
