@@ -38,14 +38,14 @@ jobs:
     displayName: Restore Dependencies
     inputs:
       command: restore
-      projects: src/${{ parameters.SolutionBaseName }}/${{ parameters.SolutionBaseName }}.sln
+      projects: src/${{ parameters.SolutionBaseName }}.sln
 
   # Build the project
   - task: DotNetCoreCLI@2
     displayName: Build Solution
     inputs:
       command: build
-      projects: src/${{ parameters.SolutionBaseName }}/${{ parameters.SolutionBaseName }}.sln
+      projects: src/${{ parameters.SolutionBaseName }}.sln
       arguments: '-c ${{ parameters.BuildConfiguration }}'
 
   # Publish the app for iOS
