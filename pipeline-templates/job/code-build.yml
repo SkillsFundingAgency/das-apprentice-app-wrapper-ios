@@ -43,7 +43,7 @@ jobs:
       inputs:
         targetType: 'inline'
         script: |
-          cd 8.0/Apps/MyApprenticeship/src/
+          cd src
           dotnet restore MyApprenticeship.sln
 
     - task: Bash@3
@@ -51,7 +51,7 @@ jobs:
       inputs:
         targetType: 'inline'
         script: |
-          cd 8.0/Apps/MyApprenticeship/src
+          cd src
           dotnet publish -f net8.0-ios -c $(BuildConfiguration) -p:BuildIpa=True -o ./artifacts
 
     - task: CopyFiles@2
