@@ -20,8 +20,8 @@ jobs:
 
     - task: InstallAppleProvisioningProfile@1
       inputs:
-        provisioningProfileLocation: 'sourceRepository'
-        provProfileSourceRepository : 'src/My_Apprenticeship_Pilot.mobileprovision' 
+        provisioningProfileLocation: 'secureFiles'
+        provProfileSecureFile: '$(ProvisioningProfile)' 
 
     - task: UseDotNet@2
       displayName: .NET Version
@@ -51,7 +51,7 @@ jobs:
         targetType: 'inline'
         script: |
           cd src
-          dotnet publish -f net8.0-ios -c $(BuildConfiguration) -p:CodesignKey="Apple Distribution: Catherine Groom (V32T36UQ9X)" -p:CodesignProvision="My_Apprenticeship_Pilot" -p:BuildIpa=True
+          dotnet publish -f net8.0-ios -c $(BuildConfiguration) -p:BuildIpa=True
 
     - task: CopyFiles@2
       inputs:
