@@ -64,7 +64,7 @@ jobs:
           -c:${{ parameters.BuildConfiguration }}
           -p:BuildIpa=True
           -p:CodesignProvision=$(Build.SourcesDirectory)/My_Apprenticeship_Pilot.mobileprovision
-          -p:CodesignKey="Apple Distribution: YourName (TEAMID)"
+          -p:CodesignKey="Apple Development: Catherine Groom (V32T36UQ9X)"
 
     - task: CopyFiles@2
       inputs:
