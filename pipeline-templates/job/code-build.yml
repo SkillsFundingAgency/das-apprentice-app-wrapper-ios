@@ -48,7 +48,7 @@ jobs:
       inputs:
         targetType: 'inline'
         script: |
-          dotnet publish MauiPipelines/MauiPipelines/MauiPipelines.csproj -f net8.0-ios -c Release --output '$(Build.ArtifactStagingDirectory)/iOS' -p:ArchiveOnBuild=true -p:RuntimeIdentifier=ios-arm64 -p:CodesignKey="$(codesign_key)" -p:CodesignProvision="$(codesign_provision)"
+          dotnet publish src/MyApprenticeship/MyApprenticeship.csproj -f net8.0-ios -c Release --output '$(Build.ArtifactStagingDirectory)/iOS' -p:ArchiveOnBuild=true -p:RuntimeIdentifier=ios-arm64 -p:CodesignKey="$(codesign_key)" -p:CodesignProvision="$(codesign_provision)"
 
     - task: PublishBuildArtifacts@1
       displayName: 'Publish iOS app to artifacts'
