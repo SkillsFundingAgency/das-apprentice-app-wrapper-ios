@@ -10,18 +10,18 @@ jobs:
     demands:
       - MSBuild
   variables:
-  - group: BUILD Management Resources 
+    - group: BUILD Management Resources 
   steps:
     - task: InstallAppleCertificate@2
       inputs:
-        certSecureFile: '$(AppleCertificate)'
+        certSecureFile: '$(AppleCertificate)' 
         certPwd: '$(iOSCertPassword)'
         keychain: 'temp'
 
     - task: InstallAppleProvisioningProfile@1
       inputs:
         provisioningProfileLocation: 'secureFiles'
-        provProfileSecureFile: '$(ProvisioningProfile)'
+        provProfileSecureFile: '$(ProvisioningProfile)' 
 
     - task: UseDotNet@2
       displayName: .NET Version
@@ -44,7 +44,7 @@ jobs:
         targetType: 'inline'
         script: |
           cd src
-          dotnet restore MyApprenticeship.sln
+          dotnet restore $(SolutionBaseName).sln
 
     - task: Bash@3
       displayName: Build iOS App
@@ -52,7 +52,7 @@ jobs:
         targetType: 'inline'
         script: |
           cd src
-          dotnet publish -f net8.0-ios -c $(BuildConfiguration) -p:BuildIpa=True -o ./artifacts
+          dotnet publish -f net8.0-ios -c $(BuildConfiguration) -p:BuildIpa=True
 
     - task: CopyFiles@2
       inputs:
