@@ -51,7 +51,7 @@ jobs:
         targetType: 'inline'
         script: |
           echo "Listing all files in the repository:"
-          ls -R /workspaces/das-apprentice-app-wrapper-ios/src
+          ls -R
      
     - task: DotNetCoreCLI@2
       displayName: Build iOS App
