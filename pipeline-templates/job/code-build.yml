@@ -12,17 +12,6 @@ jobs:
   variables:
     - group: BUILD Management Resources 
   steps:
-    - task: InstallAppleCertificate@2
-      inputs:
-        certSecureFile: '$(AppleCertificate)' 
-        certPwd: '$(iOSCertPassword)'
-        keychain: 'temp'
-
-    - task: InstallAppleProvisioningProfile@1
-      inputs:
-        provisioningProfileLocation: 'secureFiles'
-        provProfileSecureFile: '$(ProvisioningProfile)' 
-
     - task: UseDotNet@2
       displayName: .NET Version
       inputs:
@@ -35,53 +24,34 @@ jobs:
         targetType: 'inline'
         script: |
           dotnet nuget locals all --clear
-          dotnet workload install maui-ios --source https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet8/nuget/v3/index.json --source https://api.nuget.org/v3/index.json
+          dotnet workload install ios maui --source https://aka.ms/dotnet8/nuget/index.json --source https://api.nuget.org/v3/index.json
 
     - task: Bash@3
-      displayName: Restore NuGet Packages
+      displayName: Show current working directory
       inputs:
         targetType: 'inline'
-        script: |
-          cd src
-          dotnet restore $(SolutionBaseName).sln
+        script: 'ls'     
 
-    - task: Bash@3
-      displayName: List Directory Contents
+    - task: InstallAppleProvisioningProfile@1
       inputs:
-        targetType: 'inline'
-        script: |
-          echo "Listing all files in the repository:"
-          ls -R ls -R $(Build.SourcesDirectory)/src/MyApprenticeship
-     
-    - task: Bash@3
-      displayName: List Keychain Certificates
-      inputs:
-        targetType: 'inline'
-        script: |
-         security list-keychains
-         security find-identity -v -p codesigning
+        provisioningProfileLocation: 'secureFiles'
+        provProfileSecureFile: 'My_Apprenticeship_Pilot.mobileprovision' 
 
-    - task: DotNetCoreCLI@2
-      displayName: Build iOS App
+    - task: InstallAppleCertificate@2
       inputs:
-        command: 'publish'
-        publishWebProjects: false
-        projects: 'src/$(SolutionBaseName).sln'
-        arguments: >
-          -f:net8.0-ios
-          -c:${{ parameters.BuildConfiguration }}
-          -p:BuildIpa=True
-          -p:CodesignProvision=$(Build.SourcesDirectory)/src/MyApprenticeship/My_Apprenticeship_Pilot.mobileprovision
-          -p:CodesignKey="Apple Development: Catherine Groom (V32T36UQ9X)"
+        certSecureFile: '$(AppleCertificate)' 
+        certPwd: '$(iOSCertPassword)'
+        keychain: 'temp'
 
-    - task: CopyFiles@2
-      inputs:
-        Contents: |
-          **/*.ipa
-        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+      - task: Bash@3
+        displayName: Build iOS App
+        inputs:
+          targetType: 'inline'
+          script: |
+            dotnet publish MauiPipelines/MauiPipelines/MauiPipelines.csproj -f net8.0-ios -c Release --output '$(Build.ArtifactStagingDirectory)/iOS' -p:ArchiveOnBuild=true -p:RuntimeIdentifier=ios-arm64 -p:CodesignKey="$(codesign_key)" -p:CodesignProvision="$(codesign_provision)"
 
     - task: PublishBuildArtifacts@1
+      displayName: 'Publish iOS app to artifacts'
       inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-        ArtifactName: 'drop_ios'
-        publishLocation: 'Container'
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)/iOS'
+        ArtifactName: 'iOS'
