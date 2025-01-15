@@ -1,0 +1,57 @@
+parameters:
+  SolutionBaseName:
+  BuildConfiguration:
+
+jobs:
+- job: BuildMyApprenticeship
+  displayName: Build MyApprenticeship App for iOS
+  pool:
+    vmImage: 'macOS-latest'
+    demands:
+      - MSBuild
+  variables:
+    - group: BUILD Management Resources 
+  steps:
+    - task: UseDotNet@2
+      displayName: .NET Version
+      inputs:
+        packageType: 'sdk'
+        version: '8.x'
+
+    - task: Bash@3
+      displayName: Install MAUI Workload
+      inputs:
+        targetType: 'inline'
+        script: |
+          dotnet nuget locals all --clear
+          dotnet workload install ios maui --source https://aka.ms/dotnet8/nuget/index.json --source https://api.nuget.org/v3/index.json
+
+    - task: Bash@3
+      displayName: Show current working directory
+      inputs:
+        targetType: 'inline'
+        script: 'ls'     
+
+    - task: InstallAppleProvisioningProfile@1
+      inputs:
+        provisioningProfileLocation: 'secureFiles'
+        provProfileSecureFile: 'My_Apprenticeship_Pilot.mobileprovision' 
+
+    - task: InstallAppleCertificate@2
+      inputs:
+        certSecureFile: 'ApprenticeAppDistribution.p12'
+        certPwd: '$(iOSCertPassword)'
+        keychain: 'temp'
+
+    - task: Bash@3
+      displayName: Build iOS App
+      inputs:
+        targetType: 'inline'
+        script: |
+          dotnet publish src/MyApprenticeship/MyApprenticeship.csproj -f net8.0-ios -c Release --output '$(Build.ArtifactStagingDirectory)/iOS' -p:ArchiveOnBuild=true -p:RuntimeIdentifier=ios-arm64 -p:CodesignKey="$(codesign_key)" -p:CodesignProvision="$(codesign_provision)"
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish iOS app to artifacts'
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)/iOS'
+        ArtifactName: 'iOS'
