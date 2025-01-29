@@ -24,27 +24,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		595CB2EA2CFB3D760054FFEE /* My Apprenticeship App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "My Apprenticeship App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		595CB2EA2CFB3D760054FFEE /* Your Apprenticeship.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Your Apprenticeship.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		595CB2FA2CFB3D770054FFEE /* My Apprenticeship AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "My Apprenticeship AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		595CB3042CFB3D770054FFEE /* My Apprenticeship AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "My Apprenticeship AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		596CE12D2D020463002C60D1 /* Exceptions for "My Apprenticeship App" folder in "My Apprenticeship App" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"My-Apprenticeship-App-Info.plist",
-			);
-			target = 595CB2E92CFB3D760054FFEE /* My Apprenticeship App */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		595CB2EC2CFB3D760054FFEE /* My Apprenticeship App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				596CE12D2D020463002C60D1 /* Exceptions for "My Apprenticeship App" folder in "My Apprenticeship App" target */,
-			);
 			path = "My Apprenticeship App";
 			sourceTree = "<group>";
 		};
@@ -98,7 +85,7 @@
 		595CB2EB2CFB3D760054FFEE /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				595CB2EA2CFB3D760054FFEE /* My Apprenticeship App.app */,
+				595CB2EA2CFB3D760054FFEE /* Your Apprenticeship.app */,
 				595CB2FA2CFB3D770054FFEE /* My Apprenticeship AppTests.xctest */,
 				595CB3042CFB3D770054FFEE /* My Apprenticeship AppUITests.xctest */,
 			);
@@ -127,7 +114,7 @@
 			packageProductDependencies = (
 			);
 			productName = "My Apprenticeship App";
-			productReference = 595CB2EA2CFB3D760054FFEE /* My Apprenticeship App.app */;
+			productReference = 595CB2EA2CFB3D760054FFEE /* Your Apprenticeship.app */;
 			productType = "com.apple.product-type.application";
 		};
 		595CB2F92CFB3D770054FFEE /* My Apprenticeship AppTests */ = {
@@ -426,7 +413,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = uk.gov.education.apprenticeships.myapprenticeship;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Your Apprenticeship";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -458,7 +445,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = uk.gov.education.apprenticeships.myapprenticeship;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Your Apprenticeship";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
