@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		59BC40E62D5E78DB00F4C269 /* AppTrackingTransparency.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59BC40E52D5E78DB00F4C269 /* AppTrackingTransparency.framework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		595CB2FB2CFB3D770054FFEE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +31,7 @@
 		595CB2EA2CFB3D760054FFEE /* Your Apprenticeship.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Your Apprenticeship.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		595CB2FA2CFB3D770054FFEE /* My Apprenticeship AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "My Apprenticeship AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		595CB3042CFB3D770054FFEE /* My Apprenticeship AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "My Apprenticeship AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		59BC40E52D5E78DB00F4C269 /* AppTrackingTransparency.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppTrackingTransparency.framework; path = System/Library/Frameworks/AppTrackingTransparency.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -52,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				59BC40E62D5E78DB00F4C269 /* AppTrackingTransparency.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +84,7 @@
 				595CB2EC2CFB3D760054FFEE /* My Apprenticeship App */,
 				595CB2FD2CFB3D770054FFEE /* My Apprenticeship AppTests */,
 				595CB3072CFB3D770054FFEE /* My Apprenticeship AppUITests */,
+				59BC40E42D5E78DB00F4C269 /* Frameworks */,
 				595CB2EB2CFB3D760054FFEE /* Products */,
 			);
 			sourceTree = "<group>";
@@ -90,6 +97,14 @@
 				595CB3042CFB3D770054FFEE /* My Apprenticeship AppUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		59BC40E42D5E78DB00F4C269 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				59BC40E52D5E78DB00F4C269 /* AppTrackingTransparency.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -321,6 +336,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "We use some essential cookies to make this service work. We'd also like to use analytics cookies so we can understand how you use the service and make improvements.";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -378,6 +394,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "We use some essential cookies to make this service work. We'd also like to use analytics cookies so we can understand how you use the service and make improvements.";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -394,7 +411,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.2;
+				CURRENT_PROJECT_VERSION = 1.3;
 				DEVELOPMENT_ASSET_PATHS = "\"My Apprenticeship App/Preview Content\"";
 				DEVELOPMENT_TEAM = QK87927R8U;
 				ENABLE_PREVIEWS = YES;
@@ -411,7 +428,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = uk.gov.education.apprenticeships.myapprenticeship;
 				PRODUCT_NAME = "Your Apprenticeship";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -426,7 +443,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.2;
+				CURRENT_PROJECT_VERSION = 1.3;
 				DEVELOPMENT_ASSET_PATHS = "\"My Apprenticeship App/Preview Content\"";
 				DEVELOPMENT_TEAM = QK87927R8U;
 				ENABLE_PREVIEWS = YES;
@@ -443,7 +460,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = uk.gov.education.apprenticeships.myapprenticeship;
 				PRODUCT_NAME = "Your Apprenticeship";
 				SWIFT_EMIT_LOC_STRINGS = YES;
