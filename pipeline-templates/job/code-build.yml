@@ -1,0 +1,87 @@
+parameters:
+  - name: SolutionBaseName
+    type: string
+  - name: BuildConfiguration
+    type: string
+    default: 'Release'
+
+jobs:
+  - job: Build_iOS
+    displayName: 'Build iOS Application'
+    pool:
+      vmImage: 'macOS-latest'
+    steps:
+      - task: InstallAppleCertificate@2
+        displayName: 'Install Apple Certificate'
+        inputs:
+          certSecureFile: 'DistributionCert.p12'
+          certPwd: '$(certPwd)'
+
+      - task: InstallAppleProvisioningProfile@1
+        displayName: 'Install Apple Provisioning Profile'
+        inputs:
+          provisioningProfileLocation: 'secureFiles'
+          provProfileSecureFile: 'Apprenticeship_App.mobileprovision'
+
+      - script: |
+          cat <<EOF > pipeline-templates/job/exportOptions.plist
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+              <key>method</key>
+              <string>app-store-connect</string>
+              <key>compileBitcode</key>
+              <false/>
+              <key>uploadBitcode</key>
+              <true/>
+              <key>uploadSymbols</key>
+              <true/>
+              <key>provisioningProfiles</key>
+              <dict>
+                  <key>uk.gov.education.apprenticeships.myapprenticeship</key>
+                  <string>$(APPLE_PROV_PROFILE_UUID)</string>
+              </dict>
+          </dict>
+          </plist>
+          EOF
+        displayName: 'Generate exportOptions.plist'
+
+      - task: Xcode@5
+        displayName: 'Build and Package iOS App'
+        inputs:
+          actions: 'build'
+          configuration: '${{ parameters.BuildConfiguration }}'
+          sdk: 'iphoneos'
+          xcWorkspacePath: 'src/My Apprenticeship App/My Apprenticeship App.xcodeproj'
+          scheme: 'My Apprenticeship App'
+          packageApp: true
+          signingOption: 'manual'
+          signingIdentity: '$(APPLE_CERTIFICATE_SIGNING_IDENTITY)'
+          provisioningProfileUuid: '$(APPLE_PROV_PROFILE_UUID)'
+          args: 'CODE_SIGN_STYLE=Manual CODE_SIGN_IDENTITY="$(APPLE_CERTIFICATE_SIGNING_IDENTITY)" PROVISIONING_PROFILE="$(APPLE_PROV_PROFILE_UUID)" PROVISIONING_PROFILE_SPECIFIER="" CURRENT_PROJECT_VERSION=$(Build.BuildId)'
+          exportOptions: 'plist'
+          exportOptionsPlist: 'pipeline-templates/job/exportOptions.plist'
+
+      - task: CopyFiles@2
+        displayName: 'Copy IPA to Staging'
+        inputs:
+          contents: '**/*.ipa'
+          targetFolder: '$(build.artifactstagingdirectory)/publish'
+          overWrite: true
+          flattenFolders: true
+
+      - task: PublishPipelineArtifact@1
+        displayName: 'Publish Artifact'
+        inputs:
+          targetPath: '$(build.artifactstagingdirectory)/publish'
+          artifactName: '${{ parameters.SolutionBaseName }}'
+
+      - task: AppStoreRelease@1
+        displayName: 'Upload to TestFlight'
+        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+        inputs:
+          serviceEndpoint: 'AppleStoreConnection'
+          appIdentifier: 'uk.gov.education.apprenticeships.myapprenticeship'
+          appType: 'iOS'
+          releaseTrack: 'TestFlight'
