@@ -304,3 +304,7 @@ src/**/**/appsettings.Development.json
 
 
 setup/containermongo/data/
+
+# Fastlane
+vendor/
+.bundle/
