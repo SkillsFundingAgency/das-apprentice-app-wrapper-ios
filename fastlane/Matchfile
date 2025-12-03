@@ -1,0 +1,6 @@
+git_url("https://github.com/SkillsFundingAgency/das-ios-certificates.git")
+git_branch("apprentice-app")
+storage_mode("git")
+type("appstore") 
+app_identifier(["uk.gov.education.apprenticeships.myapprenticeship"])
+username("your-apple-id@example.com")
