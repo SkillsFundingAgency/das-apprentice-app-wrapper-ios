@@ -9,10 +9,8 @@ platform :ios do
 
     setup_ci
 
-    # Match for certificates and profiles (read-only)
     match(type: "appstore", readonly: true)
 
-    # Build the app
     gym(
       workspace: workspace_path,
       scheme: scheme_name,
@@ -36,12 +34,11 @@ platform :ios do
         release_notes: { 'default' => release_notes },
         submit_for_review: false,
         automatic_release: false,
-        force: true, # Skip HTML report verification
+        force: true,
         skip_screenshots: true,
         skip_metadata: false
       )
     else
-      # Default to TestFlight
       pilot(
         ipa: ipa_path,
         changelog: release_notes,

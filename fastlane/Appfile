@@ -1,2 +1,2 @@
-app_identifier("uk.gov.education.apprenticeships.myapprenticeship") # The bundle identifier of your app
-apple_id("your-apple-id@example.com") # Your Apple email address
+app_identifier("uk.gov.education.apprenticeships.myapprenticeship")
+apple_id("your-apple-id@example.com")
