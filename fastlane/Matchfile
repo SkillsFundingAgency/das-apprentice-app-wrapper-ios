@@ -1,0 +1,14 @@
+if ENV['GITHUB_PAT']
+  git_url("https://#{ENV['GITHUB_PAT']}@github.com/SkillsFundingAgency/das-ios-certificates")
+else
+  git_url("https://github.com/SkillsFundingAgency/das-ios-certificates")
+end
+git_branch("apprentice-app")
+
+storage_mode("git")
+
+type("development")
+
+app_identifier(["uk.gov.education.apprenticeships.myapprenticeship"])
+# username("user@fastlane.tools") # Your Apple Developer Portal username
+team_id("QK87927R8U")

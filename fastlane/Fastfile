@@ -1,0 +1,56 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Build the app for distribution (pipeline step)"
+  lane :build_only do |options|
+    if is_ci
+      setup_ci
+    end
+
+    match(type: "appstore", readonly: is_ci)
+
+    if options[:build_number]
+      increment_build_number(
+        build_number: options[:build_number],
+        xcodeproj: "src/My Apprenticeship App/My Apprenticeship App.xcodeproj"
+      )
+    end
+
+    build_opts = {
+      scheme: options[:scheme_name] || "My Apprenticeship App",
+      clean: true,
+      output_directory: "./output",
+      export_method: "app-store",
+      xcargs: "CODE_SIGN_IDENTITY='Apple Distribution' PROVISIONING_PROFILE_SPECIFIER='match AppStore uk.gov.education.apprenticeships.myapprenticeship'"
+    }
+
+    if options[:workspace_path].to_s.end_with?(".xcworkspace")
+      build_opts[:workspace] = options[:workspace_path]
+    else
+      build_opts[:project] = options[:workspace_path]
+    end
+
+    build_app(build_opts)
+  end
+
+  desc "Upload existing IPA to TestFlight (pipeline step)"
+  lane :upload_ipa do |options|
+    target = ENV["DistributionTarget"]
+    
+    if target == "AppStore"
+      upload_to_app_store(
+        ipa: options[:ipa_path],
+        force: true,
+        submit_for_review: false, 
+        skip_metadata: true,
+        skip_screenshots: true
+      )
+    else
+      upload_to_testflight(
+        ipa: options[:ipa_path],
+        changelog: options[:release_notes] || "Automated build from Azure DevOps",
+        skip_waiting_for_build_processing: true
+      )
+    end
+  end
+end
