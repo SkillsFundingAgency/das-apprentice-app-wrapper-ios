@@ -1,0 +1,32 @@
+parameters:
+  - name: ArtifactName
+    type: string
+  - name: ReleaseNotes
+    type: string
+    default: 'Automated release from Azure DevOps pipeline.'
+  - name: DistributionTarget
+    type: string
+    default: 'TestFlight'
+    values:
+      - 'TestFlight'
+      - 'AppStore'
+  - name: Environment
+    type: string
+    default: ''
+
+jobs:
+  - deployment: Deploy_iOS
+    displayName: 'Deploy iOS Application'
+    environment: ${{ parameters.Environment }}
+    pool:
+      vmImage: 'macOS-latest'
+    variables:
+      DistributionTarget: ${{ parameters.DistributionTarget }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - template: azure-pipelines-templates/deploy/step/ios-app-deploy.yml@das-platform-building-blocks
+              parameters:
+                ArtifactName: ${{ parameters.ArtifactName }}
+                ReleaseNotes: ${{ parameters.ReleaseNotes }}

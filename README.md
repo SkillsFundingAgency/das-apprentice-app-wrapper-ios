@@ -27,18 +27,39 @@ A native iOS wrapper application for the Apprenticeship Service.
    - Select a simulator or connected device.
    - Press `Cmd + R` to build and run.
 
+4. **Running with Fastlane (Local Pipeline Test)**:
+   This project uses [Fastlane](https://fastlane.tools) to automate building and signing.
+
+   **Prerequisites**:
+   - Ruby (Recommended: use `rbenv` or `rvm` to match `.ruby-version` if present)
+   - Bundler: `gem install bundler`
+
+   **Setup**:
+   ```bash
+   bundle install
+   ```
+
+   **Run Build Command (Build + Archive)**:
+   ```bash
+   bundle exec fastlane build_only
+   ```
+   *Note: This will use your local certificates. If you want to test the full CI flow, you may need read access to the certificates repo.*
+
 ### Versioning
 
-The application version is managed manually in Xcode.
+### Versioning
 
-**Important**: If you encounter an `Invalid Pre-Release Train` error during the pipeline run, it means the current version has been closed in App Store Connect.
+*   **Build Number** (`CFBundleVersion`): **Automatic**. The pipeline sets this based on the Azure DevOps Build ID.
+*   **App Version** (`Marketing Version`): **Manual**. You must increment this in the Xcode **General** settings when you release a new version (e.g., `1.0` -> `1.1`).
 
-**To fix this:**
-1. Check the current version in **App Store Connect** > **TestFlight** > **iOS Builds** (under the app name).
-2. Open the project in Xcode.
-3. Select the **My Apprenticeship App** target.
-4. Increment the **Version** (Marketing Version) in the General tab (e.g., change `1.5` to `1.6`).
-5. Commit and push the changes.
+
+### Signing Strategy
+
+The project uses a **Hybrid Signing** approach to balance developer experience with CI security:
+
+*   **Local Development (Debug)**: Uses **Automatic Signing**. You can run the app on simulators or your own device using your personal Apple ID/Team. No manual certificate installation is required.
+*   **CI / Release**: Uses **Manual Signing** managed by [Fastlane Match](https://docs.fastlane.tools/actions/match/). Encrypted certificates and provisioning profiles are stored in a private git repository and injected securely during the Azure DevOps build.
+
 
 ---
 
@@ -54,12 +75,10 @@ The project uses Azure DevOps for Continuous Integration and Deployment.
 
 ### Key Pipeline Steps
 
-1. **Install Certificates**: Installs Apple Distribution Certificate.
-2. **Install Provisioning Profile**: Installs App Store Provisioning Profile.
-3. **Build & Sign**: Uses `xcodebuild` to archive and export the IPA.
-   - **Export Method**: `app-store`
-   - **Versioning**: Uses `$(Build.BuildId)` as the **Build Number** (CFBundleVersion), but relies on the project file for the **App Version** (CFBundleShortVersionString).
-4. **Upload to TestFlight**: Automatically uploads successful builds to TestFlight (Only on `main` branch).
+1.  **Signing**: `fastlane match` securely fetches encrypted certificates from the private repository.
+2.  **Build**: `fastlane gym` builds and signs the IPA artifact.
+3.  **Deployment**: Uploads to TestFlight on `main` builds.
+    *   **Note**: Deployment is **paused** by default. You must approve the release in the **Azure DevOps Environment** check.
 
 ### Troubleshooting Builds
 
