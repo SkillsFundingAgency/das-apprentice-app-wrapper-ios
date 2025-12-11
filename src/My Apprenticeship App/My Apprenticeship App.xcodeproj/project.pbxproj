@@ -190,6 +190,11 @@
 				TargetAttributes = {
 					595CB2E92CFB3D760054FFEE = {
 						CreatedOnToolsVersion = 16.0;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					595CB2F92CFB3D770054FFEE = {
 						CreatedOnToolsVersion = 16.0;
@@ -430,8 +435,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.5;
-				PRODUCT_BUNDLE_IDENTIFIER = uk.gov.education.apprenticeships.myapprenticeship;
+				PRODUCT_BUNDLE_IDENTIFIER = uk.gov.education.apprenticeships.myapprenticeship; VERSIONING_SYSTEM = "apple-generic";
 				PRODUCT_NAME = "Your Apprenticeship";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -444,7 +450,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "My Apprenticeship App/My Apprenticeship App.entitlements";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1.5;
 				DEVELOPMENT_ASSET_PATHS = "\"My Apprenticeship App/Preview Content\"";
 				DEVELOPMENT_TEAM = QK87927R8U;
@@ -463,7 +469,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.5;
-				PRODUCT_BUNDLE_IDENTIFIER = uk.gov.education.apprenticeships.myapprenticeship;
+				PRODUCT_BUNDLE_IDENTIFIER = uk.gov.education.apprenticeships.myapprenticeship; VERSIONING_SYSTEM = "apple-generic";
 				PRODUCT_NAME = "Your Apprenticeship";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -475,7 +481,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QK87927R8U;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -494,7 +500,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QK87927R8U;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -512,7 +518,7 @@
 		595CB3152CFB3D770054FFEE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QK87927R8U;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -529,7 +535,7 @@
 		595CB3162CFB3D770054FFEE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QK87927R8U;
 				GENERATE_INFOPLIST_FILE = YES;
