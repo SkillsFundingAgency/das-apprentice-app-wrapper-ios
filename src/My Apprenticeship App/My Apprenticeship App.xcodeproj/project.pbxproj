@@ -417,7 +417,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "My Apprenticeship App/My Apprenticeship App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.5.1;
+				CURRENT_PROJECT_VERSION = 1.5.2;
 				DEVELOPMENT_ASSET_PATHS = "\"My Apprenticeship App/Preview Content\"";
 				DEVELOPMENT_TEAM = QK87927R8U;
 				ENABLE_PREVIEWS = YES;
@@ -430,11 +430,12 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5.1;
+				MARKETING_VERSION = 1.5.2;
 				PRODUCT_BUNDLE_IDENTIFIER = uk.gov.education.apprenticeships.myapprenticeship;
 				PRODUCT_NAME = "Your Apprenticeship";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -452,7 +453,7 @@
 				CODE_SIGN_ENTITLEMENTS = "My Apprenticeship App/My Apprenticeship App.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.5.1;
+				CURRENT_PROJECT_VERSION = 1.5.2;
 				DEVELOPMENT_ASSET_PATHS = "\"My Apprenticeship App/Preview Content\"";
 				DEVELOPMENT_TEAM = QK87927R8U;
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = QK87927R8U;
@@ -466,14 +467,15 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5.1;
+				MARKETING_VERSION = 1.5.2;
 				PRODUCT_BUNDLE_IDENTIFIER = uk.gov.education.apprenticeships.myapprenticeship;
 				PRODUCT_NAME = "Your Apprenticeship";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = MyApprenticeshipPilot2026;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "My Apprenticeship Pilot 2026";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
